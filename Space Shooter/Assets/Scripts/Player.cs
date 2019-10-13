@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     private bool _shieldActive = false;
     [SerializeField]
     private float powerUpOnTime = 3;
+
+    private int _score;
     void Start()
     {
         transform.position = Vector3.zero;
@@ -83,7 +85,8 @@ public class Player : MonoBehaviour
     {
         if (!_shieldActive)
         {
-            _lives--; 
+            _lives--;
+            UIManager.instance.UpdateLivesDisplay(_lives);
         }
         else
         {
@@ -95,6 +98,7 @@ public class Player : MonoBehaviour
         if(_lives <= 0)
         {
             SpawnManager.instance.OnPlayerDeath();
+            UIManager.instance.GameOver();
             Destroy(gameObject);
         }
     }
@@ -131,5 +135,16 @@ public class Player : MonoBehaviour
             _spawnedShield.transform.localScale = new Vector3(2, 2);
             _shieldActive = true; 
         }
+    }
+
+    public void SetScore(int addedScore)
+    {
+        _score += addedScore;
+        UIManager.instance.UpdateScoreText();
+    }
+
+    public int GetScore()
+    {
+        return _score;
     }
 }

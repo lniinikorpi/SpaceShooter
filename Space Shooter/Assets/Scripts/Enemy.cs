@@ -7,10 +7,23 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4;
     public int health = 3;
+    [SerializeField]
+    private int _scoreGiven = 10;
 
     private float _yBoundTop = 7;
     private float _yBoundBottom = -5.5f;
     private float _xBound = 9.5f;
+
+    private Player _player;
+
+    private void Start()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if(_player == null)
+        {
+           Debug.LogError("Player is NULL!");
+        }
+    }
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -24,13 +37,10 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.tag == "Player")
         {
-            Player player = other.GetComponent<Player>();
-            if(player != null)
-            {
-                player.Damage();
-            }
+            _player.Damage();
             Destroy(gameObject);
         }
         else if(other.tag == "Laser")
@@ -39,6 +49,7 @@ public class Enemy : MonoBehaviour
             health--;
             if(health <= 0)
             {
+                _player.SetScore(_scoreGiven);
                 Destroy(gameObject);
             }
         }
