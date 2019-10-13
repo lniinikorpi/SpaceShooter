@@ -87,8 +87,10 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Destroy(_spawnedShield);
             _shieldActive = false;
+            _spawnedShield.GetComponent<Animator>().Play("ShieldDestroy_anim");
+            Destroy(_spawnedShield, 0.5f);
+            return;
         }
         if(_lives <= 0)
         {
