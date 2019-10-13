@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5;
+    private float _speedMultiplier = 2;
     [SerializeField]
     private int _lives = 3;
 
@@ -22,7 +24,11 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    [SerializeField]
+    private GameObject _shieldPrefab;
+    private GameObject _spawnedShield;
     private bool _tripleShotActive = false;
+    private bool _shieldActive = false;
     [SerializeField]
     private float powerUpOnTime = 3;
     void Start()
@@ -75,7 +81,15 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _lives--;
+        if (!_shieldActive)
+        {
+            _lives--; 
+        }
+        else
+        {
+            Destroy(_spawnedShield);
+            _shieldActive = false;
+        }
         if(_lives <= 0)
         {
             SpawnManager.instance.OnPlayerDeath();
@@ -93,5 +107,27 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(powerUpOnTime);
         _tripleShotActive = false;
+    }
+
+    public void CollectSpeed()
+    {
+        _speed *= _speedMultiplier;
+        StartCoroutine(SpeedOff());
+    }
+
+    private IEnumerator SpeedOff()
+    {
+        yield return new WaitForSeconds(powerUpOnTime);
+        _speed /= _speedMultiplier;
+    }
+
+    public void CollectShield()
+    {
+        if (!_shieldActive)
+        {
+            _spawnedShield = Instantiate(_shieldPrefab, gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            _spawnedShield.transform.localScale = new Vector3(2, 2);
+            _shieldActive = true; 
+        }
     }
 }

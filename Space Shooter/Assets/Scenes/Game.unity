@@ -328,8 +328,10 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 7455944698407753069, guid: d238758b1ee18104ea1314bd90698507,
     type: 3}
   _enemies: {fileID: 1690110914}
-  _tripleShotPrefab: {fileID: 7031613598571188652, guid: e747494afd96b5440a8c34a8e8e3f407,
-    type: 3}
+  _powerUps:
+  - {fileID: 7031613598571188652, guid: e747494afd96b5440a8c34a8e8e3f407, type: 3}
+  - {fileID: 4646319429693698613, guid: 75343846ddb6b674daf9a283c25281cc, type: 3}
+  - {fileID: 8124055301233041043, guid: 11e6a001f090e3542b1e15084d84e6f5, type: 3}
   _waitTime: 2
   _powerUpMaxWait: 8
   _powerUpMinWait: 3
@@ -632,7 +634,9 @@ MonoBehaviour:
   _fireRate: 5
   _tripleShotPrefab: {fileID: 1354818927854217865, guid: 117e9ffbb96b9e7418b6654eeced3f43,
     type: 3}
-  powerUpOnTime: 3
+  _shieldPrefab: {fileID: 364623554133060309, guid: b63ccb91aee8f5748bef349c6961f95e,
+    type: 3}
+  powerUpOnTime: 5
 --- !u!212 &1737978518
 SpriteRenderer:
   m_ObjectHideFlags: 0

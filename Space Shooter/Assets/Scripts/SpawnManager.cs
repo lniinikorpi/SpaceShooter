@@ -10,7 +10,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemies;
     [SerializeField]
-    private GameObject _tripleShotPrefab;
+    private List<GameObject> _powerUps = new List<GameObject>();
     private bool _spawnEnemy;
     private bool _spawnTripleShot;
     [SerializeField]
@@ -64,7 +64,8 @@ public class SpawnManager : MonoBehaviour
         {
             _spawnTripleShot = true;
             float randX = Random.Range(-_xBound, _xBound);
-            Instantiate(_tripleShotPrefab, new Vector3(randX, _yBound, 0), Quaternion.identity);
+            int powerUp = Random.Range(0, _powerUps.Count);
+            Instantiate(_powerUps[powerUp], new Vector3(randX, _yBound, 0), Quaternion.identity);
             float wait = Random.Range(_powerUpMinWait, _powerUpMaxWait);
             yield return new WaitForSeconds(wait);
             _spawnTripleShot = false;
