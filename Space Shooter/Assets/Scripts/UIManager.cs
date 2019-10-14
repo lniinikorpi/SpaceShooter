@@ -46,17 +46,6 @@ public class UIManager : MonoBehaviour
         _restartText.SetActive(false);
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            if(_player == null)
-            {
-                SceneManager.LoadScene(0);
-            }
-        }
-    }
-
     public void UpdateScoreText()
     {
         _scoreText.text = "Score: " + _player.GetScore();
@@ -71,5 +60,6 @@ public class UIManager : MonoBehaviour
     {
         _gameOverText.SetActive(true);
         _restartText.SetActive(true);
+        GameManager.instance.SetGameOver(true);
     }
 }
