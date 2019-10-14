@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private bool _isDead = false;
 
     private Animator _anim;
+    private AudioSource _audioSource;
 
     private void Start()
     {
@@ -30,6 +31,11 @@ public class Enemy : MonoBehaviour
         if(_anim == null)
         {
             Debug.LogError("Animator is NULL");
+        }
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("Audio source is NULL");
         }
     }
     void Update()
@@ -67,6 +73,7 @@ public class Enemy : MonoBehaviour
     {
         _isDead = true;
         _anim.SetTrigger("isDead");
+        _audioSource.Play();
         GetComponent<BoxCollider2D>().enabled = false;
         Destroy(gameObject, 2.5f);
     }

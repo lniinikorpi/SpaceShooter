@@ -33,6 +33,14 @@ public class Player : MonoBehaviour
     private float powerUpOnTime = 3;
     [SerializeField]
     private List<GameObject> _engines;
+    [SerializeField]
+    private AudioSource _audioSourceLaser;
+    [SerializeField]
+    private AudioSource _audioSourceLPowerUp;
+    [SerializeField]
+    private AudioClip _laserClip;
+    [SerializeField]
+    private AudioClip _powerUpClip;
 
     private int _score;
     void Start()
@@ -81,6 +89,8 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.8f), Quaternion.identity);
         }
+        _audioSourceLaser.clip = _laserClip;
+        _audioSourceLaser.Play();
     }
 
     public void Damage()
@@ -117,6 +127,7 @@ public class Player : MonoBehaviour
     public void CollectTripleShot()
     {
         _tripleShotActive = true;
+        _audioSourceLPowerUp.Play();
         StartCoroutine(TripleShotOff());
     }
 
@@ -128,6 +139,7 @@ public class Player : MonoBehaviour
 
     public void CollectSpeed()
     {
+        _audioSourceLPowerUp.Play();
         _speed *= _speedMultiplier;
         StartCoroutine(SpeedOff());
     }
@@ -142,6 +154,7 @@ public class Player : MonoBehaviour
     {
         if (!_shieldActive)
         {
+            _audioSourceLPowerUp.Play();
             _spawnedShield = Instantiate(_shieldPrefab, gameObject.transform.position, Quaternion.identity, gameObject.transform);
             _spawnedShield.transform.localScale = new Vector3(2, 2);
             _shieldActive = true; 

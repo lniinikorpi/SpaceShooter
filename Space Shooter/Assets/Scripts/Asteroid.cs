@@ -21,6 +21,7 @@ public class Asteroid : MonoBehaviour
     private bool _isDestroyed = false;
 
     private Animator _anim;
+    private AudioSource _audioSource;
 
     private void Start()
     {
@@ -33,6 +34,11 @@ public class Asteroid : MonoBehaviour
         if (_anim == null)
         {
             Debug.LogError("Animator is NULL");
+        }
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("Audio source is NULL");
         }
         _rotationSpeed = Random.Range(-_rotationSpeedMax, _rotationSpeedMax);
     }
@@ -67,6 +73,7 @@ public class Asteroid : MonoBehaviour
         _isDestroyed = true;
         SpawnManager.instance.DestroyedAsteroids++;
         _anim.SetTrigger("isDestroyed");
+        _audioSource.Play();
         GetComponent<CircleCollider2D>().enabled = false;
         Destroy(gameObject, 2.5f);
     }

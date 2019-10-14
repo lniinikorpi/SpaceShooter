@@ -16,10 +16,6 @@ public class Powerup : MonoBehaviour
     private float _speed = 3;
     private float _yBoundsBottom = -5.5f;
     private float _yboundsTop = 7;
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
