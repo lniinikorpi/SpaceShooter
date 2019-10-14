@@ -8,11 +8,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
     [SerializeField]
+    private GameObject _asteroidPrefab;
+    [SerializeField]
     private GameObject _enemies;
     [SerializeField]
     private List<GameObject> _powerUps = new List<GameObject>();
     private bool _spawnEnemy;
-    private bool _spawnTripleShot;
+    private bool _spawnPowerUp;
     [SerializeField]
     private float _waitTime = 2;
     [SerializeField]
@@ -22,6 +24,9 @@ public class SpawnManager : MonoBehaviour
     private float _xBound = 9.5f;
     private float _yBound = 7.5f;
     private bool _stopSpawing = false;
+
+    [HideInInspector]
+    public int DestroyedAsteroids;
     private void Awake()
     {
         if(instance == null)
@@ -41,7 +46,7 @@ public class SpawnManager : MonoBehaviour
         {
             StartCoroutine(SpawnEnemy());
         }
-        if (_spawnTripleShot == false)
+        if (_spawnPowerUp == false && DestroyedAsteroids > 9)
         {
             StartCoroutine(SpawnPowerUp());
         }
@@ -53,7 +58,16 @@ public class SpawnManager : MonoBehaviour
         {
             _spawnEnemy = true;
             float randX = Random.Range(-_xBound, _xBound);
-            Instantiate(_enemyPrefab, new Vector3(randX, _yBound, 0), Quaternion.identity, _enemies.transform);
+            GameObject enemyToSpawn;
+            if(DestroyedAsteroids < 10)
+            {
+                enemyToSpawn = _asteroidPrefab;
+            }
+            else
+            {
+                enemyToSpawn = _enemyPrefab;
+            }
+            Instantiate(enemyToSpawn, new Vector3(randX, _yBound, 0), Quaternion.identity, _enemies.transform);
             yield return new WaitForSeconds(_waitTime);
             _spawnEnemy = false; 
         }
@@ -62,13 +76,13 @@ public class SpawnManager : MonoBehaviour
     {
         if (_stopSpawing == false)
         {
-            _spawnTripleShot = true;
+            _spawnPowerUp = true;
             float randX = Random.Range(-_xBound, _xBound);
             int powerUp = Random.Range(0, _powerUps.Count);
             Instantiate(_powerUps[powerUp], new Vector3(randX, _yBound, 0), Quaternion.identity);
             float wait = Random.Range(_powerUpMinWait, _powerUpMaxWait);
             yield return new WaitForSeconds(wait);
-            _spawnTripleShot = false;
+            _spawnPowerUp = false;
         }
     }
 

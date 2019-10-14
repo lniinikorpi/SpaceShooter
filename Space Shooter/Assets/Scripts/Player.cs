@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     private bool _shieldActive = false;
     [SerializeField]
     private float powerUpOnTime = 3;
+    [SerializeField]
+    private List<GameObject> _engines;
 
     private int _score;
     void Start()
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            CalculateMovement(); 
+            CalculateMovement();
         }
         if (Input.GetButton("Fire1") && Time.time > _canFire)
         {
@@ -70,14 +72,14 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        _canFire = Time.time + 1/_fireRate;
-        if(_tripleShotActive)
+        _canFire = Time.time + 1 / _fireRate;
+        if (_tripleShotActive)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
         else
         {
-            Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.8f), Quaternion.identity); 
+            Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 0.8f), Quaternion.identity);
         }
     }
 
@@ -86,7 +88,22 @@ public class Player : MonoBehaviour
         if (!_shieldActive)
         {
             _lives--;
-            UIManager.instance.UpdateLivesDisplay(_lives);
+            if (_lives > 0)
+            {
+                UIManager.instance.UpdateLivesDisplay(_lives);
+
+                System.Random rand = new System.Random();
+                int engineIndex = rand.Next(0, _engines.Count);
+                GameObject engine = _engines[engineIndex];
+                engine.SetActive(true);
+                _engines.Remove(engine);
+            }
+            else
+            {
+                SpawnManager.instance.OnPlayerDeath();
+                UIManager.instance.GameOver();
+                Destroy(gameObject);
+            }
         }
         else
         {
@@ -94,12 +111,6 @@ public class Player : MonoBehaviour
             _spawnedShield.GetComponent<Animator>().Play("ShieldDestroy_anim");
             Destroy(_spawnedShield, 0.5f);
             return;
-        }
-        if(_lives <= 0)
-        {
-            SpawnManager.instance.OnPlayerDeath();
-            UIManager.instance.GameOver();
-            Destroy(gameObject);
         }
     }
 
