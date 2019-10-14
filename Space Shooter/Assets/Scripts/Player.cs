@@ -60,6 +60,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "EnemyLaser")
+        {
+            Damage();
+            Destroy(other.gameObject);
+        }
+    }
+
     void CalculateMovement()
     {
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));

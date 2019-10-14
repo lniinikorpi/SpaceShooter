@@ -8,8 +8,8 @@ public class Laser : MonoBehaviour
     private float _speed = 10f;
     void Update()
     {
-        transform.Translate(Vector3.up * Time.deltaTime * _speed);
-        if(transform.position.y > 8f)
+        transform.position += transform.up * Time.deltaTime * _speed;
+        if(Mathf.Abs(transform.position.y) > 8f)
         {
             if(transform.parent != null)
             {

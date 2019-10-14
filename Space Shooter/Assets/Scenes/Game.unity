@@ -547,6 +547,7 @@ MonoBehaviour:
   _waitTime: 2
   _powerUpMaxWait: 8
   _powerUpMinWait: 3
+  _numberOfAsteroidsToShoot: 0
   DestroyedAsteroids: 0
 --- !u!4 &519225509
 Transform:
@@ -1844,8 +1845,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -51,6 +51,8 @@ MonoBehaviour:
   _speed: 4
   health: 3
   _scoreGiven: 10
+  _laserPrefab: {fileID: 2189458727220726274, guid: 45860ff4219551844950dc6129c07b9e,
+    type: 3}
 --- !u!61 &6323726503207127407
 BoxCollider2D:
   m_ObjectHideFlags: 0

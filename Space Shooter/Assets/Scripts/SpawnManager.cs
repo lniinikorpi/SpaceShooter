@@ -24,6 +24,8 @@ public class SpawnManager : MonoBehaviour
     private float _xBound = 9.5f;
     private float _yBound = 7.5f;
     private bool _stopSpawing = false;
+    [SerializeField]
+    private int _numberOfAsteroidsToShoot = 10;
 
     [HideInInspector]
     public int DestroyedAsteroids;
@@ -46,7 +48,7 @@ public class SpawnManager : MonoBehaviour
         {
             StartCoroutine(SpawnEnemy());
         }
-        if (_spawnPowerUp == false && DestroyedAsteroids > 9)
+        if (_spawnPowerUp == false && DestroyedAsteroids >= _numberOfAsteroidsToShoot)
         {
             StartCoroutine(SpawnPowerUp());
         }
@@ -59,7 +61,7 @@ public class SpawnManager : MonoBehaviour
             _spawnEnemy = true;
             float randX = Random.Range(-_xBound, _xBound);
             GameObject enemyToSpawn;
-            if(DestroyedAsteroids < 10)
+            if(DestroyedAsteroids < _numberOfAsteroidsToShoot)
             {
                 enemyToSpawn = _asteroidPrefab;
             }

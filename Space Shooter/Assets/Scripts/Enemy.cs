@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public int health = 3;
     [SerializeField]
     private int _scoreGiven = 10;
+    [SerializeField]
+    private GameObject _laserPrefab;
 
     private float _yBoundTop = 7;
     private float _yBoundBottom = -5.5f;
@@ -16,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
     private bool _isDead = false;
+    private bool _isFiring = false;
 
     private Animator _anim;
     private AudioSource _audioSource;
@@ -40,9 +43,18 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        CalculateMovement();
+        if (!_isFiring)
+        {
+            StartCoroutine(Fire());
+        }
+    }
+
+    private void CalculateMovement()
+    {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if(transform.position.y <= _yBoundBottom && !_isDead)
+        if (transform.position.y <= _yBoundBottom && !_isDead)
         {
             float randX = Random.Range(-_xBound, _xBound);
             transform.position = new Vector3(randX, _yBoundTop);
@@ -67,6 +79,14 @@ public class Enemy : MonoBehaviour
                 DestroyEnemy();
             }
         }
+    }
+
+    IEnumerator Fire()
+    {
+        _isFiring = true;
+        yield return new WaitForSeconds(Random.Range(1f,7f));
+        Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y - 0.8f), new Quaternion(0,0,180,0));
+        _isFiring = false;
     }
 
     void DestroyEnemy ()
